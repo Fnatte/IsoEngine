@@ -48,6 +48,26 @@
 			for(var z = 0; z < arr.length; z++) {
 				if(arr[z] == null) return z;
 			}
+		},
+		getMapCoords: function(x, y) {
+			// Fuck this shit. 
+			var offset = engine.tileSize.height * ((engine.map.size.height%2) ? engine.map.size.height - 1 : engine.map.size.height) / 2;
+			y-= engine.cameraTransition.y + offset;
+			x-= engine.cameraTransition.x;
+			return {
+				x: Math.floor((x / engine.tileSize.width) - ((y-engine.map.size.height) / engine.tileSize.height)),
+				y: Math.floor((x / engine.tileSize.width) + (y / engine.tileSize.height)) - 1
+			};
+		},
+		getScreenCoords: function(x, y) {
+			return {
+				x: (x * engine.tileSize.width / 2) + (y * engine.tileSize.width / 2),
+				y: (y * engine.tileSize.height / 2) - (x * engine.tileSize.height / 2)
+			};
+		},
+		isVaildCoords: function(x, y, z) {
+			return x >= 0 && y >= 0 && z >= 0 && 
+				x < this.size.width && y < this.size.height && z < this.size.depth;
 		}
 	});
 })();

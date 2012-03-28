@@ -28,7 +28,6 @@ window.addEvent('domready', function() {
 	
 	var box = new IsoEngine.Entities.Box();
 	engine.map.set(box, 10, 10, 1);
-	engine.map.set(box, 9, 10, 1);
 	
 	// Start game
 	engine.clear();

@@ -28,7 +28,7 @@
 			document.id('main').addEvent('click', function(e) {
 				e.stop();
 				if(this.mouseHasMoved()) {
-					var rpos = this.getRelativePosition(e.event.x, e.event.y);
+					var rpos = engine.map.getMapCoords(e.event.x, e.event.y);
 					var firstEmpty = engine.map.firstEmpty(rpos.x, rpos.y);
 					if(firstEmpty < 5) {
 						engine.map.set(new IsoEngine.Entities.Box(), rpos.x, rpos.y, firstEmpty);
@@ -39,7 +39,7 @@
 			document.id('main').addEvent('contextmenu', function(e) {
 				e.stop();
 				if(this.mouseHasMoved()) {
-					var rpos = this.getRelativePosition(e.event.x, e.event.y);
+					var rpos = engine.map.getMapCoords(e.event.x, e.event.y);
 					var firstEmpty = engine.map.firstEmpty(rpos.x, rpos.y);
 					if(firstEmpty == null) firstEmpty = 5;
 					if(firstEmpty > 1) {
@@ -59,16 +59,6 @@
 		},
 		mouseHasMoved: function() {
 			return Math.abs(this.lastTotalMove.x) < 10 && Math.abs(this.lastTotalMove.y) < 10;
-		},
-		getRelativePosition: function(x, y) {
-			// Fuck this shit. 
-			var offset = engine.tileSize.height * ((engine.map.size.height%2) ? engine.map.size.height - 1 : engine.map.size.height) / 2;
-			y-= engine.cameraTransition.y + offset;
-			x-= engine.cameraTransition.x;
-			return {
-				x: Math.floor((x / engine.tileSize.width) - ((y-engine.map.size.height) / engine.tileSize.height)),
-				y: Math.floor((x / engine.tileSize.width) + (y / engine.tileSize.height)) - 1
-			};
 		}
 	});
 })();
