@@ -27,11 +27,18 @@ class Script
 		$this->addClass('isoengine.map');
 		$this->addClass('isoengine.math');
 		
+		// Components
+		$this->addClass('isoengine.components.component');
+		$this->addClass('isoengine.components.background');
+		$this->addClass('isoengine.components.textblock');
+		$this->addClass('isoengine.components.renderer.renderer');
+		$this->addClass('isoengine.components.renderer.diamond');
+		$this->addClass('isoengine.components.renderer.zigzag');
+		
 		// Entities
 		$this->addClass('isoengine.entities.entity');
 		$this->addClass('isoengine.entities.white');
 		$this->addClass('isoengine.entities.box');
-		$this->addClass('isoengine.entities.blocker');
 		
 		// Input
 		$this->addClass('isoengine.input.input');

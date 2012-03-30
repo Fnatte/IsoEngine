@@ -29,11 +29,11 @@ window.addEvent('domready', function() {
 	var box = new IsoEngine.Entities.Box();
 	engine.map.set(box, 10, 10, 1);
 	
-	// Start game
-	engine.clear();
-	engine.start();
-
 	// Setup input
 	var input = new IsoEngine.Input.Desktop();
 	engine.components.push(input);
+	
+	// Start game
+	engine.clear();
+	engine.start();
 });

@@ -11,6 +11,7 @@ var IsoEngine = {};
 		components: [],
 		
 		clearStyle: '#4E64AD',
+		size: null,
 		
 		fpsElement: null,
 		fpsFilter: 20,
@@ -35,9 +36,9 @@ var IsoEngine = {};
 			this.element = document.id(element);
 			this.context = this.element.getContext('2d');
 			
-			var size = this.element.getSize();
-			this.element.width = size.x;
-			this.element.height = size.y;
+			this.size = this.element.getSize();
+			this.element.width = this.size.x;
+			this.element.height = this.size.y;
 			
 			this.map = new IsoEngine.Map();
 		},
@@ -107,60 +108,10 @@ var IsoEngine = {};
 		render: function() {
 			this.clear();
 			
-			this.context.save();
-			this.context.translate(this.cameraTransition.x, this.cameraTransition.y);
-			
-			if(this.isometricType == 1) this.renderDiamond();
-			else if(this.isometricType == 2) this.renderZigZag();
-			
-			this.context.restore();
-		},
-		renderDiamond: function() {
-			this.context.save();
-			this.context.translate(
-				0,
-				this.tileSize.height * ( (this.map.size.height%2) ? this.map.size.height - 1 : this.map.size.height) /2
-			);
-			
-			for(var y = 0; y < this.map.size.height; y++) {
-				for(var x = this.map.size.width-1; x >= 0; x--) {
-					for(var z = 0; z < this.map.size.depth; z++) {
-						var entity = this.map.get(x, y, z);
-						if(entity != null) {
-							this.context.save();
-							this.context.translate(
-								(x * this.tileSize.width / 2) + (y * this.tileSize.width / 2),
-								(y * this.tileSize.height / 2) - (x * this.tileSize.height / 2)
-							);
-							entity.render(this.context);
-							if(this.displayCoords) this.renderCoord(x, y);
-							this.context.restore();
-						}
-					}
-				}
-			}
-			this.context.restore();
-		},
-		renderZigZag: function() {
-			var offset_x = 0;
-			var halfTileWidth = this.tileSize.width / 2;;
-			
-			for(var y = 0; y < this.map.size.height; y++) {
-				offset_x = (y%2==0) ? halfTileWidth : 0;
-				
-				for(var x = 0; x < this.map.size.width; x++) {
-					var entity = this.map.get(x, y);
-					if(entity != null) {
-						this.context.save();
-						this.context.translate(
-							x * this.tileSize.width + offset_x,
-							y * this.tileSize.height / 2
-						);
-						entity.render(this.context);
-						this.context.restore();
-					}
-				}
-			}
+			// Render components
+			this.components.each(function(item) {
+				if(typeof item.render == 'function') item.render(this.context);
+			}.bind(this));
 		},
 		renderCoord: function(x, y) {
 			this.context.save();

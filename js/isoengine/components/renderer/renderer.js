@@ -1,0 +1,3 @@
+(function() {
+	IsoEngine.Components.Renderer = {};
+})();

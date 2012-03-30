@@ -37,7 +37,13 @@
 				delete this.tiles[x][y][z];
 			}
 			
-			if(previous) previous.remove();
+			if(previous) {
+				if(!previous.blocking && entity != null) {
+					previous.owner = entity;
+					entity.children.push(previous);
+				}
+				else previous.remove();
+			}
 			
 			return previous;
 		},
