@@ -1,4 +1,5 @@
 <?php
+namespace IsoEngine;
 defined('ISOENGINE') or die('Restricted access');
 
 class Config
@@ -8,6 +9,8 @@ class Config
 	public $language = 'en';
 	
 	public $webapp_fullscreen = false;
+	
+	public $js_path = 'js';
 }
 
 
