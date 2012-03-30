@@ -6,12 +6,12 @@
 		moving: false,
 		lastPos: null,
 		lastTotalMove: null,
-		canvas: 'main',
 		
 		navigateWithMouse: true,
 		
-		initialize: function() {
-			this.canvas = document.id(this.canvas);
+		initialize: function(engine) {
+			this.parent(engine);
+			this.canvas = this.engine.element;
 			this.register();
 		},
 		register: function() {

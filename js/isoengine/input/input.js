@@ -1,5 +1,5 @@
 (function() {
-	IsoEngine.Input = new Class({		
-		update: function(gameTime) {}
+	IsoEngine.Input = new Class({
+		Extends: IsoEngine.Components.Component
 	});
 })();

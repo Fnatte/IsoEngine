@@ -26,6 +26,14 @@ var IsoEngine = {};
 		
 		displayCoords: false,
 		
+		/*
+		 * Whether or not use the requestAnimationFrame() function to assist the game loop.
+		 * This can have lot of impact on the performance.
+		 * 
+		 * Make sure that the shim rAF.js is included to provide better cross-browser combability.
+		 */
+		useRequestAnimationFrame: true,
+		
 		imagesPath: 'images/',
 		
 		gameTime: {
@@ -76,6 +84,7 @@ var IsoEngine = {};
 			var now = Date.now();
 			var dt = now - this.then;
 			
+			
 			// Work
 			var workTime = Date.now();
 			this.update(dt);
@@ -87,8 +96,10 @@ var IsoEngine = {};
 			this.then = now;
 			
 			if(this.running) {
-				setTimeout(this.loop.bind(this), (1000 / this.targetFps) - workTime);
+				if(this.useRequestAnimationFrame) window.requestAnimationFrame(this.loop.bind(this));
+				else setTimeout(this.loop.bind(this), (1000 / this.targetFps) - workTime);
 			}
+			
 		},
 		update: function(dt) {
 			// Update game time

@@ -43,6 +43,8 @@ class Script
 		// Input
 		$this->addClass('isoengine.input.input');
 		$this->addClass('isoengine.input.desktop');
+		
+		$this->addClass('root.rAF');
 	}
 	
 	public function getClassPath($class) {
