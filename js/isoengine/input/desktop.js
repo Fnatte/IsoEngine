@@ -39,20 +39,13 @@
 		},
 		keypress: function(e) {
 			if(e.key == 'c') {
+				e.stop();
 				engine.displayCoords ^= 1;
 			}
 		},
 		keydown: function(e) {},
 		contextmenu: function(e) {
 			e.stop();
-			if(this.mouseHasMoved()) {
-				var rpos = engine.map.getMapCoords(e.event.x, e.event.y);
-				var firstEmpty = engine.map.firstEmpty(rpos.x, rpos.y);
-				if(firstEmpty == null) firstEmpty = 5;
-				if(firstEmpty > 1) {
-					engine.map.set(null, rpos.x, rpos.y, firstEmpty-1);
-				}
-			}
 		},
 		click: function(e) {
 			e.stop();
@@ -63,12 +56,6 @@
 					// Debug object
 					console.log(engine.map.get(rpos.x, rpos.y));
 					
-				} else {
-					// Spawn Box
-					var firstEmpty = engine.map.firstEmpty(rpos.x, rpos.y);
-					if(firstEmpty < 5) {
-						engine.map.set(new IsoEngine.Entities.Box(), rpos.x, rpos.y, firstEmpty);
-					}
 				}
 			}
 		},

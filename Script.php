@@ -26,14 +26,17 @@ class Script
 		$this->addClass('isoengine.engine');
 		$this->addClass('isoengine.map');
 		$this->addClass('isoengine.math');
+		$this->addClass('isoengine.canvas');
 		
 		// Components
 		$this->addClass('isoengine.components.component');
 		$this->addClass('isoengine.components.background');
 		$this->addClass('isoengine.components.textblock');
+		$this->addClass('isoengine.components.performance');
 		$this->addClass('isoengine.components.renderer.renderer');
 		$this->addClass('isoengine.components.renderer.diamond');
 		$this->addClass('isoengine.components.renderer.zigzag');
+		$this->addClass('isoengine.components.renderer.canvas');
 		
 		// Entities
 		$this->addClass('isoengine.entities.entity');

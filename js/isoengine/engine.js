@@ -6,24 +6,36 @@ var IsoEngine = {};
 (function() {
 	IsoEngine.Engine = new Class({
 		
+		// Elements and thier canvases
 		element: null, context: null,
+		
+		// Core shit.
 		map: null,
 		components: [],
+		maps: [],
 		
 		clearStyle: '#4E64AD',
 		size: null,
 		
+		// Element to print the current FPS to.
+		// The FPS-number will be "filtered" using the fpsFilter property.
 		fpsElement: null,
+		
+		// Loop properties: FPS, running...
 		fpsFilter: 20,
 		targetFps: 60,
 		fps: 0,
 		then: Date.now(),
 		running: false,
+		ticks: 0,
+		totalWorktime: 0,
 		
+		// Graphics
 		cameraTransition: { x: 0, y: 0 },
 		tileSize: { width: 64, height: 32 },
 		isometricType: 1, // 1 = Diamond, 2 = Zig-zag
 		
+		// Whether or not to display coordinates on the map.
 		displayCoords: false,
 		
 		/*
@@ -36,10 +48,14 @@ var IsoEngine = {};
 		
 		imagesPath: 'images/',
 		
+		// Time object to be passed to every component and entity.
+		// This object will be reused and not renewed for performance.
 		gameTime: {
 			dt: 0,
 			total: 0,
 		},
+		
+		
 		initialize: function(element) {
 			this.element = document.id(element);
 			this.context = this.element.getContext('2d');
@@ -48,7 +64,7 @@ var IsoEngine = {};
 			this.element.width = this.size.x;
 			this.element.height = this.size.y;
 			
-			this.map = new IsoEngine.Map();
+			this.map = this.maps[0] = new IsoEngine.Map();
 		},
 		load: function() {
 			this.map.each(function(item) {
@@ -58,7 +74,7 @@ var IsoEngine = {};
 		clear: function(style) {
 			if(!style) style = this.clearStyle;
 			this.context.fillStyle = style;
-			this.context.fillRect(0,0,this.element.clientWidth, this.element.clientHeight);
+			this.context.fillRect(0,0,this.size.x, this.size.y);
 		},
 		start: function() {
 			this.running = true;
@@ -79,17 +95,22 @@ var IsoEngine = {};
 				setTimeout(this.updateFpsElement.bind(this), 1000);
 			}
 		},
+		defaultMap: function() {
+			this.map = this.maps[0];
+		},
 		loop: function() {
+			this.ticks++;
+			
 			// Calculate delta time and fps
 			var now = Date.now();
 			var dt = now - this.then;
-			
 			
 			// Work
 			var workTime = Date.now();
 			this.update(dt);
 			this.render();
 			workTime = Date.now() - workTime;
+			this.totalWorktime += workTime;
 			
 			// Calculate fps
 			this.fps += ((1000 / (now - this.then)) - this.fps) / this.fpsFilter;
@@ -99,7 +120,6 @@ var IsoEngine = {};
 				if(this.useRequestAnimationFrame) window.requestAnimationFrame(this.loop.bind(this));
 				else setTimeout(this.loop.bind(this), (1000 / this.targetFps) - workTime);
 			}
-			
 		},
 		update: function(dt) {
 			// Update game time
@@ -129,6 +149,9 @@ var IsoEngine = {};
 			this.context.fillStyle = 'black';
 			this.context.fillText("("+x+","+y+")", 16, 16);
 			this.context.restore();
+		},
+		getAverageWorktime: function() {
+			return this.totalWorktime / this.ticks;
 		}
 	});
 })();

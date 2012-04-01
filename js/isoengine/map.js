@@ -2,7 +2,10 @@
 	IsoEngine.Map = new Class({
 		tiles: null,
 		size: { width: 10, height: 10, depth: 5 },
-		initialize: function() {
+		initialize: function(width, height, depth) {
+			if(width) this.size.width = width;
+			if(height) this.size.height = height;
+			if(depth) this.size.depth = depth;
 			this.reset();
 		},
 		reset: function() {
