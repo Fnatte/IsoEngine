@@ -35,17 +35,14 @@
 				entity.x = x;
 				entity.y = y;
 				entity.z = z;
+				entity.isOnMap = true;
 				this.tiles[x][y][z] = entity;
 			} else {
 				delete this.tiles[x][y][z];
 			}
 			
 			if(previous) {
-				if(!previous.blocking && entity != null) {
-					previous.owner = entity;
-					entity.children.push(previous);
-				}
-				else previous.remove();
+				previous.remove();
 			}
 			
 			return previous;

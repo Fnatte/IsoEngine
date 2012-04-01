@@ -144,12 +144,6 @@ var IsoEngine = {};
 				if(typeof item.render == 'function') item.render(this.context);
 			}.bind(this));
 		},
-		renderCoord: function(x, y) {
-			this.context.save();
-			this.context.fillStyle = 'black';
-			this.context.fillText("("+x+","+y+")", 16, 16);
-			this.context.restore();
-		},
 		getAverageWorktime: function() {
 			return this.totalWorktime / this.ticks;
 		}

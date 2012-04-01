@@ -10,6 +10,8 @@
 	IsoEngine.Entities.Entity = new Class(
 	{
 		x: 0, y: 0, z: 0,
+		isOnMap: false,
+		
 		map: null,
 		
 		speed: 1, // Movement speed
@@ -73,6 +75,7 @@
 		 */
 		remove: function() {
 			this.map.set(null, this.x, this.y, this.z);
+			this.isOnMap = false;
 		}
 	});
 	

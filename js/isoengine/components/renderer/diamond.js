@@ -27,7 +27,6 @@
 				(y * this.engine.tileSize.height / 2) - (x * this.engine.tileSize.height / 2)
 			);
 			entity.render(c);
-			if(this.engine.displayCoords) this.engine.renderCoord(x, y);
 			c.restore();
 		},
 		translate: function(c) {
@@ -51,8 +50,6 @@
 					if(entity != null) this.renderEntity(c, x, y, z, entity);
 				}
 			}
-			
-			
 			
 			c.restore();
 		}
