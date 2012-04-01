@@ -27,6 +27,7 @@ class Script
 		$this->addClass('isoengine.map');
 		$this->addClass('isoengine.math');
 		$this->addClass('isoengine.canvas');
+		$this->addClass('isoengine.loader');
 		
 		// Components
 		$this->addClass('isoengine.components.component');
