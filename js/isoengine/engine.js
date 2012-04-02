@@ -73,8 +73,11 @@ var IsoEngine = {};
 		},
 		clear: function(style) {
 			if(!style) style = this.clearStyle;
-			this.context.fillStyle = style;
-			this.context.fillRect(0,0,this.size.x, this.size.y);
+			
+			if(style) {
+				this.context.fillStyle = style;
+				this.context.fillRect(0,0,this.size.x, this.size.y);
+			}
 		},
 		start: function() {
 			this.running = true;
