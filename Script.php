@@ -31,6 +31,7 @@ class Script
 		
 		// Components
 		$this->addClass('isoengine.components.component');
+		$this->addClass('isoengine.components.audiomanager');
 		$this->addClass('isoengine.components.background');
 		$this->addClass('isoengine.components.textblock');
 		$this->addClass('isoengine.components.performance');

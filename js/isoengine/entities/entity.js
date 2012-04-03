@@ -46,7 +46,10 @@
 				this.movingOffset = engine.map.getScreenCoords(dx, dy);
 				this.remove();
 				engine.map.set(this, x, y, z);
+				return this;
 			}
+			
+			return false;
 		},
 		updateMovement: function(gameTime) {
 			if(this.isMoving) {
