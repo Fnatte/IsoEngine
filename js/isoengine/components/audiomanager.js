@@ -36,6 +36,8 @@
 		},
 		
 		play: function(key, volume) {
+			if(!this.context) return;
+
 			var source = this.context.createBufferSource();
 			source.buffer = this.buffers[key];
 			source.connect(this.gainNode);
@@ -45,7 +47,9 @@
 		},
 		
 		setVolume: function(volume) {
-			this.gainNode.gain.value = volume;
+			if(this.gainNode) {
+				this.gainNode.gain.value = volume;
+			}
 		},
 		
 		update: function(gameTime) {},

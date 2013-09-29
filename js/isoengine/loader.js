@@ -13,17 +13,20 @@
 		loadImages: function() {
 			if(this.loadings < 0) this.loadings = 0;
 			this.loadings += this.images.length;
+			var self = this;
 			this.images.each(function(url) {
-				var image = new Image();
-				image.addEvent('load', function() {
-					this.loadings--;
-					this.update();
-				}.bind(this));
+				var image = document.createElement('img');
+				image.onload = function() {
+					self.loadings--;
+					self.update();
+				};
 				image.src = url;
-			}.bind(this));
+			});
 		},
 		
 		loadAudio: function() {
+			if(typeof(webkitAudioContext) === 'undefined') return;
+
 			var self = this;
 			var context = new webkitAudioContext();
 			if(this.loadings < 0) this.loadings = 0;

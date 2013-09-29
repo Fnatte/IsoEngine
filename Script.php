@@ -1,6 +1,8 @@
 <?php
 namespace IsoEngine;
 
+include dirname(__FILE__).'/php-closure.php';
+
 class Script
 {
 	private $classes = array();
@@ -79,5 +81,25 @@ class Script
 	public function printTags() {
 		$tags = $this->getTags();
 		foreach($tags as $tag) echo $tag . PHP_EOL;
+	}
+	
+	public function printTagCompiled() {
+		$path = $this->getClassPath('compiled.compiled');
+		if(!file_exists($path))
+			$this->compile($path);
+		echo '<script src="'.$path.'"></script>';
+	}
+	
+	public function compile($path) {
+		$c = new \PhpClosure();
+		foreach($this->classes as $class) {
+			$p = $this->getClassPath($class);
+			$c->add($p);
+		}
+		//$c->advancedMode();
+		$c->simpleMode();
+		$c->useClosureLibrary();
+		$result = $c->_compile();
+		file_put_contents($path, $result);
 	}
 }

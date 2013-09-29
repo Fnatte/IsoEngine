@@ -40,7 +40,7 @@
 		keypress: function(e) {
 			if(e.key == 'c') {
 				e.stop();
-				engine.displayCoords ^= 1;
+				this.engine.displayCoords ^= 1;
 			}
 		},
 		keydown: function(e) {},
@@ -50,11 +50,12 @@
 		click: function(e) {
 			e.stop();
 			if(this.mouseHasMoved()) {
-				var rpos = engine.map.getMapCoords(e.event.x, e.event.y);
+				var rpos = this.engine.map.getMapCoords(e.event.offsetX, e.event.offsetY);
 				
 				if(e.control) {
 					// Debug object
-					console.log(engine.map.get(rpos.x, rpos.y));
+					console.log(rpos.x, rpos.y);
+					// this.engine.map.get(rpos.x, rpos.y)
 					
 				}
 			}
@@ -66,8 +67,8 @@
 				this.lastPos = {x: e.event.x, y: e.event.y };
 				this.lastTotalMove.x += dx;
 				this.lastTotalMove.y += dy;
-				engine.cameraTransition.x += dx;
-				engine.cameraTransition.y += dy;
+				this.engine.cameraTransition.x += dx;
+				this.engine.cameraTransition.y += dy;
 			}
 		},
 		mousedown: function(e) {

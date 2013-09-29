@@ -1,8 +1,10 @@
 (function() {
 	IsoEngine.Map = new Class({
+		engine: null,
 		tiles: null,
 		size: { width: 10, height: 10, depth: 5 },
-		initialize: function(width, height, depth) {
+		initialize: function(engine, width, height, depth) {
+			this.engine = engine;
 			if(width) this.size.width = width;
 			if(height) this.size.height = height;
 			if(depth) this.size.depth = depth;
@@ -24,7 +26,6 @@
 			if(z == null) {
 				return this.tiles[x][y];
 			}
-			
 			return this.tiles[x][y][z];
 		},
 		set: function(entity, x, y, z) {
@@ -64,18 +65,31 @@
 		},
 		getMapCoords: function(x, y) {
 			// Fuck this shit. 
-			var offset = engine.tileSize.height * ((engine.map.size.height%2) ? engine.map.size.height - 1 : engine.map.size.height) / 2;
-			y-= engine.cameraTransition.y + offset;
-			x-= engine.cameraTransition.x;
+			// Detta är det sämsta.
+			
+			var w = this.engine.tileSize.width;
+			var h = this.engine.tileSize.height;
+			
+			var ty = h/2;
+			if(this.engine.map.size.height % 2) ty *= (this.engine.map.size.height - 1);
+			else ty *= this.engine.map.size.height;
+			
+			var tx = this.engine.cameraTransition.x;
+			ty += this.engine.cameraTransition.y;
+			
+			x -= tx;
+			y -= ty;
+			
 			return {
-				x: Math.floor((x / engine.tileSize.width) - ((y-engine.map.size.height) / engine.tileSize.height)),
-				y: Math.floor((x / engine.tileSize.width) + (y / engine.tileSize.height)) - 1
+				x: Math.round(x/w-y/h - this.size.width/2),
+				y: Math.round(x/w+y/h + this.size.width/2)-1
 			};
+			
 		},
 		getScreenCoords: function(x, y) {
 			return {
-				x: (x * engine.tileSize.width / 2) + (y * engine.tileSize.width / 2),
-				y: (y * engine.tileSize.height / 2) - (x * engine.tileSize.height / 2)
+				x: (x * this.engine.tileSize.width / 2) + (y * this.engine.tileSize.width / 2),
+				y: (y * this.engine.tileSize.height / 2) - (x * this.engine.tileSize.height / 2)
 			};
 		},
 		isVaildCoords: function(x, y, z) {

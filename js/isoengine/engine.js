@@ -29,6 +29,7 @@ var IsoEngine = {};
 		running: false,
 		ticks: 0,
 		totalWorktime: 0,
+		updateEntities: true,
 		
 		// Graphics
 		cameraTransition: { x: 0, y: 0 },
@@ -52,7 +53,7 @@ var IsoEngine = {};
 		// This object will be reused and not renewed for performance.
 		gameTime: {
 			dt: 0,
-			total: 0,
+			total: 0
 		},
 		
 		
@@ -64,7 +65,7 @@ var IsoEngine = {};
 			this.element.width = this.size.x;
 			this.element.height = this.size.y;
 			
-			this.map = this.maps[0] = new IsoEngine.Map();
+			this.map = this.maps[0] = new IsoEngine.Map(this);
 		},
 		load: function() {
 			this.map.each(function(item) {
@@ -135,16 +136,18 @@ var IsoEngine = {};
 			}.bind(this));
 			
 			// Update entities
-			this.map.each(function(item) {
-				item.update(this.gameTime);
-			}.bind(this));
+			if(this.updateEntities) {
+				this.map.each(function(item) {
+					item.update(this.gameTime);
+				}.bind(this));
+			}
 		},
 		render: function() {
 			this.clear();
 			
 			// Render components
 			this.components.each(function(item) {
-				if(typeof item.render == 'function') item.render(this.context);
+				if(typeof item.render == 'function') item.render(this.context, this.gameTime);
 			}.bind(this));
 		},
 		getAverageWorktime: function() {

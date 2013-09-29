@@ -12,6 +12,7 @@
 		x: 0, y: 0, z: 0,
 		isOnMap: false,
 		
+		engine: null,
 		map: null,
 		
 		speed: 1, // Movement speed
@@ -23,15 +24,23 @@
 		
 		debug: false,
 		
-		initialize: function() {},
+		/**
+		 * Creates a new instance of a IsoEngine.Entities.Entity.
+		 * @this {IsoEngine.Entities.Entity}
+		 */
+		initialize: function(engine) {
+			this.engine = engine;
+		},
 		render: function(context) {},
 		update: function(gameTime) {
 			this.updateMovement(gameTime);
 		},
-		load: function(engine) {},
+		load: function(engine) {
+		},
 		
 		/**
 		 * Moves the entity to the specified position.
+		 * @this {IsoEngine.Entities.Entity}
 		 * @param x
 		 * @param y
 		 * @param z
@@ -41,11 +50,11 @@
 			var dx = this.x - x;
 			var dy = this.y - y;
 			
-			if(!this.isMoving && engine.map.isVaildCoords(x, y, z) && this.map.isEmpty(x, y, z)) {
+			if(!this.isMoving && this.engine.map.isVaildCoords(x, y, z) && this.map.isEmpty(x, y, z)) {
 				this.isMoving = true;
-				this.movingOffset = engine.map.getScreenCoords(dx, dy);
+				this.movingOffset = this.engine.map.getScreenCoords(dx, dy);
 				this.remove();
-				engine.map.set(this, x, y, z);
+				this.engine.map.set(this, x, y, z);
 				return this;
 			}
 			
@@ -58,11 +67,11 @@
 					y = this.movingOffset.y;
 				
 				if(Math.abs(x) > 1) {
-					this.movingOffset.x += (x<0?1:-1) * engine.tileSize.width * this.speed * gameTime.dt * 0.0005;
+					this.movingOffset.x += (x<0?1:-1) * this.engine.tileSize.width * this.speed * gameTime.dt * 0.0005;
 				}
 				
 				if(Math.abs(y) > 1) {
-					this.movingOffset.y += (y<0?1:-1) * engine.tileSize.height * this.speed * gameTime.dt * 0.0005;
+					this.movingOffset.y += (y<0?1:-1) * this.engine.tileSize.height * this.speed * gameTime.dt * 0.0005;
 				}
 				
 				if(Math.abs(y) <= this.speed && Math.abs(x) <= this.speed) {

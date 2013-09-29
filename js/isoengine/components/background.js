@@ -5,7 +5,7 @@
 		
 		initialize: function(engine, image) {
 			this.parent(engine);
-			this.image = new Image();
+			this.image = document.createElement('img');
 			this.image.src = engine.imagesPath + image;
 		},
 		update: function(gameTime) {},
